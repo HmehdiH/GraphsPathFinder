@@ -1,0 +1,162 @@
+Path finder
+===========
+
+Time spent per group member:
+* Theodor: 8h
+* Mehdi: 8h
+* Baseer: 8h
+
+All tasks
+---------
+
+**Question**
+For each of the below invocations, list:
+- the number of loop iterations,
+- the minimal cost,
+- and a shortest path (i.e. a path having minimal cost).
+
+After completing each task, you can fill in more data here.
+
+> java RunPathFinder ucs AdjacencyGraph graphs/AdjacencyGraph/citygraph-SE.txt Lund Kiruna
+
+loop iterations: 5427
+minimal cost:    1826
+shortest path:   Lund --[16]-> Löddeköpinge --[69]-> Hjärnarp --[52]-> Åled --[6]-> Oskarström --[22]-> ..... --[68]-> Storuman --[71]-> Sorsele --[233]-> Jokkmokk --[93]-> Gällivare --[121]-> Kiruna
+
+> java RunPathFinder ucs NPuzzle 3 /HFG/BED/C_A/ /ABC/DEF/GH_/
+
+loop iterations: 483540
+minimal cost:    31
+shortest path:   /HFG/BED/C_A/ -> /HFG/BED/CA_/ -> /HFG/BE_/CAD/ -> /HF_/BEG/CAD/ -> /H_F/BEG/CAD/ -> ..... -> /AEB/D_C/GHF/ -> /A_B/DEC/GHF/ -> /AB_/DEC/GHF/ -> /ABC/DE_/GHF/ -> /ABC/DEF/GH_/
+
+> java RunPathFinder astar NPuzzle 3 /HFG/BED/C_A/ /ABC/DEF/GH_/
+
+loop iterations: 11013
+minimal cost:   0.102s
+
+> java RunPathFinder ucs NPuzzle 3 /HGF/BED/C_A/ /ABC/DEF/GH_/
+
+loop iterations: 483841
+minimal cost:    -
+shortest path:   No path found from /HGF/BED/C_A/ to /ABC/DEF/GH_/
+
+> java RunPathFinder ucs GridGraph graphs/GridGraph/AR0011SR.map 23:161 130:211
+
+loop iterations: 159327
+minimal cost:    366,4
+shortest path:   23:161 -> 23:160 -> 23:159 -> 23:158 -> 23:157 -> ..... --[1,41]-> 132:207 --[1,41]-> 131:208 -> 131:209 --[1,41]-> 130:210 -> 130:211
+
+> java RunPathFinder astar GridGraph graphs/GridGraph/AR0011SR.map 23:161 130:211
+
+loop iterations: 95160
+minimal cost:    0.157s
+
+> java RunPathFinder ucs WordLadder graphs/WordLadder/swedish-saldo.txt syster broder
+
+loop iterations: 71182
+minimal cost:    11
+shortest path:   syster -> sylter -> sylten -> synten -> synden -> ..... -> bauden -> bruden -> bröden -> bröder -> broder
+
+> java RunPathFinder astar WordLadder graphs/WordLadder/swedish-saldo.txt syster broder
+
+loop iterations: 7055
+minimal cost:    0.271s
+shortest path:   syster -> sylter -> sylten -> synten -> synden -> ..... -> bauden -> bruden -> bröden -> bröder -> broder
+
+Task 2: Word ladder
+-------------------
+
+**Question**
+What's the asymptotic average-case complexity of WordLadder.outgoingEdges in the alphabet size K and the length N of the given word?
+
+    New answer: O(KN^2) Because of the linear time complexity substring calls inside the loop.
+
+Tasks 3 and 4: The A* algorithm, Guessing the cost
+--------------------------------------------------
+
+**Question**
+For each of the three classes GridGraph, WordLadder, and NPuzzle, what is the approximate improvement factor in the number of loop iterations by running A* instead of UCS?
+Try a number of different examples per class.
+
+- GridGraph:
+
+    First: ucs-159327 astar-95160
+    Second: ucs-22602 astar-1538
+    Third: ucs-17746 astar-745
+
+    First test: 159327/95160 = 1,67
+    Second test: 22602/1538 = 14,7
+    Third test: 54244/21073 = 2,57
+
+    Average factor = 2,57 + 1,67 + 14.7 / 3
+    Average factor = 6,314
+
+
+- WordLadder:
+
+    First: ucs-2355 astar-112
+    Second: ucs-154325 astar-15959
+    Third: ucs-71182 astar-7055
+
+    First test: 2355/112 = 21
+    Second test: 154325/15959 = 9,7
+    Third test: 71182/7055 = 10,1
+
+    Average factor = 21+9,7+10,1 / 3
+    Average factor = 13,6
+
+- NPuzzle:
+
+    First: ucs-483540 astar-11013
+    Second: ucs-146647 astar-5073
+    Third: ucs-349916 astar-10980
+
+    First test: 483540/11013 = 43,9
+    Second test: 146647/5073 = 28,9
+    Third test: 349916/10980 = 31,9
+
+    Average factor = 43,9 + 28,9 + 31,9 / 3
+    Average factor = 31
+
+**Question**
+For which of the three classes GridGraph, WordLadder, and NPuzzle, did the heuristic guessCost have the most impact?
+What do you think is the reason for this?
+
+    NPuzzle because all paths has the same cost and when the guessCost is
+    implemented the algorithm can rely on the guessCost instead of the edges that always have
+    the same cost. In GridGraph it barely even change.
+
+
+**Question**
+What are the main differences between your implementations of searchAstar and searchUCS?
+
+    The main difference is that the A* knows that it is heading in the right "direction", while
+    UCS realys only on taking the shortest path and dosen't care if it's in th wrong "direction".
+    The "direction" is the estimated cost to get to the goal. If a traversal has a low estimated cost
+    it means that it will be favoured over path other traversals where the cost may be the same or even
+    lower, but the estimated cost is higher.
+
+Appendix: general information
+=============================
+
+**Question**
+Do you know of any bugs or limitations?
+
+No
+
+**Question**
+Did you collaborate with any other students on this lab?
+If so, write with whom and in what way you collaborated.
+Also list any resources (including the web) you have used in creating your design.
+
+Only some youtube videos on how A* worked.
+
+**Question**
+Did you encounter any serious problems?
+
+The implementation of both guessCosts (Task 4)
+
+**Question**
+What is your feedback on this assignment?
+
+This was the most interesting (and challenging) out of the four labs!
