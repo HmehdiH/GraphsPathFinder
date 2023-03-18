@@ -72,33 +72,18 @@ public class WordLadder implements DirectedGraph<String> {
          * TODO: Task 2  *
          * Replace this. *
          *****************/
-        //return new LinkedList<>();
-        
-        int i = 0;
+    
         LinkedList<DirectedEdge<String>> edges = new LinkedList();
-
-        while(i<w.length()){
-            //efter första, alla samma  
-            if(i==0){
-                for(Character c : alphabet){
-                    String target = c + w.substring(i+1);
-                    
-                    if(dictionary.contains(target) && !(target.equals(w))){
-                        edges.add(new DirectedEdge(w, target));
-                    }
+        
+        for(int i = 0; i < w.length(); i++){
+            for(Character c : alphabet){
+                char[] str = w.toCharArray();
+                str[i] = c;
+                String target = new String(str);
+                if(dictionary.contains(target) && !(target.equals(w))){
+                    edges.add(new DirectedEdge(w, target));
                 }
             }
-            // 0 till i |och| i+1 till slutet samma 
-            else{
-                for(Character c : alphabet){
-                    String target = w.substring(0,i) + c + w.substring(i+1);
-                    
-                    if(dictionary.contains(target) && !(target.equals(w))){
-                        edges.add(new DirectedEdge(w, target));
-                    }
-                }
-            }
-            i++;
         }
         return edges;
     }
